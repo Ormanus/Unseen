@@ -24,6 +24,13 @@ public class PlayerController : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public override void OnNetworkDespawn()
+    {
+        GameObject.Find("Main Camera").transform.SetParent(null);
+        NetworkManager.Singleton.Shutdown(true);
+        UIController.Singleton.ShowElement("StartScreen");
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
