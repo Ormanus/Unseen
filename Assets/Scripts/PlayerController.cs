@@ -80,8 +80,12 @@ public class PlayerController : NetworkBehaviour
                 rb.gravityScale = -rb.gravityScale;
                 playerType = PlayerType.Dark;
             }
-
-            GameObject.Find("Main Camera").transform.SetParent(transform);
+            var cam = GameObject.Find("Main Camera");
+            if (cam)
+            {
+                cam.transform.SetParent(transform);
+                cam.transform.localPosition = new Vector3(0f, 0f, -10f);
+            }
         }
 
         if (IsServer)
