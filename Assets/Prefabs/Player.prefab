@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00187a701b16a1408b406a08632a9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriangleDrawerObject: {fileID: 1980012197662084687, guid: 7ae4caa42d93dad478ffccf151c1809b, type: 3}
 --- !u!1 &4855939838451715111
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,9 +58,9 @@ GameObject:
   - component: {fileID: 3492196877869471715}
   - component: {fileID: 5132405232821209002}
   - component: {fileID: 9215119194470418197}
-  - component: {fileID: 8773500957770690105}
   - component: {fileID: -2506864738705744862}
   - component: {fileID: 5366502048733528356}
+  - component: {fileID: 1438726196214234453}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -204,43 +203,17 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 28f4355145befc74aa248ba5a873fec1, type: 3}
+  m_Sprite: {fileID: 1622488053, guid: ea9dd64ca48fdd54ab82e119d1226f26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.1, y: 0.1}
+  m_Size: {x: 0.65, y: 0.85}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &8773500957770690105
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4855939838451715111}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.1, y: 0.1}
-    newSize: {x: 0.1, y: 0.1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.14, y: 0.17}
-  m_EdgeRadius: 0
 --- !u!114 &-2506864738705744862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +242,32 @@ MonoBehaviour:
   - {fileID: 258718785107667731}
   - {fileID: 3687573467868213379}
   - {fileID: 4198334452907724368}
+--- !u!61 &1438726196214234453
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855939838451715111}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.026710182, y: -0.1210306}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.65, y: 0.85}
+    newSize: {x: 0.65, y: 0.85}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4363184, y: 0.6079388}
+  m_EdgeRadius: 0
 --- !u!1 &7796695263239238647
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00187a701b16a1408b406a08632a9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriangleDrawerObject: {fileID: 1980012197662084687, guid: 7ae4caa42d93dad478ffccf151c1809b, type: 3}
 --- !u!1 &8842606211863229066
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,4 +356,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00187a701b16a1408b406a08632a9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriangleDrawerObject: {fileID: 1980012197662084687, guid: 7ae4caa42d93dad478ffccf151c1809b, type: 3}
