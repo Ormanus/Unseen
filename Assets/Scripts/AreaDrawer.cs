@@ -58,7 +58,7 @@ public class AreaDrawer : MonoBehaviour
 
     List<PointLine> RaycastAngle(List<Vector2[]> lines, RaycastPoint raycastPoint)
     {
-        List<Vector2> points = new List<Vector2>();
+        List<PointLine> points = new List<PointLine>();
 
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
         Vector2 direction = raycastPoint.Point - pos;
@@ -93,14 +93,13 @@ public class AreaDrawer : MonoBehaviour
                 CompareFloat(Mathf.Atan2(direction.y, direction.x) , Mathf.Atan2(intersection.y - pos.y, intersection.x - pos.x)))
             {
                 Debug.Log(intersection);
-                points.Add(intersection);
-                intersected_lines.Add(line);
+                points.Add(new PointLine(intersection, line));
             }
         }
 
-        points.Sort((Vector2 a, Vector2 b) => {
-            float lenA = (a - pos).sqrMagnitude;
-            float lenB = (b - pos).sqrMagnitude;
+        points.Sort((PointLine a, PointLine b) => {
+            float lenA = (a.Point - pos).sqrMagnitude;
+            float lenB = (b.Point - pos).sqrMagnitude;
             if (lenA == lenB)
                 return 0;
             return lenA < lenB ? -1 : 1;
@@ -110,14 +109,12 @@ public class AreaDrawer : MonoBehaviour
 
         for (int i = 0; i < points.Count; i++)
         {
-            foreach (var line in intersected_lines)
-            {
-                finalPoints.Add(new PointLine(points[i], line));
+            PointLine pointLine= points[i];
+            finalPoints.Add(pointLine);
 
-                if (!CompareVector2(points[i], line[0]) && !CompareVector2(points[i], line[1]))
-                {
-                    return finalPoints;
-                }
+            if (!CompareVector2(pointLine.Point, pointLine.Line[0]) && !CompareVector2(pointLine.Point, pointLine.Line[1]))
+            {
+                return finalPoints;
             }
         }
         return finalPoints;
