@@ -10,10 +10,8 @@ public class PlayerController : NetworkBehaviour
         Light,
         Dark
     }
-    const float jumpForce = 200f;
+    const float jumpForce = 2f;
     const float horizontalSpeed = 5f;
-
-    public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
 
     float horizontalControl = 0;
     Rigidbody2D rb;
@@ -30,15 +28,17 @@ public class PlayerController : NetworkBehaviour
     {
         if (IsOwner)
         {
-            
+            if (IsClient)
+                rb.position = Vector2.down * 3f;
+            else
+                rb.position = Vector2.up * 3f;
+
+            GameObject.Find("MainCamera").transform.SetParent(transform);
         }
     }
 
     void Update()
     {
-        transform.position = Position.Value;
-
-
         if (IsOwner)
         {
             // Horizontal controls
@@ -74,13 +74,5 @@ public class PlayerController : NetworkBehaviour
         var v = rb.velocity;
         v.x = horizontalControl * horizontalSpeed;
         rb.velocity = v;
-
-        SendUpdatedPositionServerRpc();
-    }
-
-    [ServerRpc]
-    void SendUpdatedPositionServerRpc(ServerRpcParams rpcParams = default)
-    {
-        Position.Value = transform.position;
     }
 }
