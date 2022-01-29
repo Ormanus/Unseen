@@ -46,10 +46,12 @@ public class PlayerController : NetworkBehaviour
         if (NetworkManager.Singleton.ConnectedClients.Count > 1)
         {
             Time.timeScale = 1f;
+            UIController.Singleton.HideAll();
         }
         else
         {
-            Time.timeScale = 1f;
+            UIController.Singleton.ShowElement("Notification");
+            Time.timeScale = 0f;
         }
     }
 

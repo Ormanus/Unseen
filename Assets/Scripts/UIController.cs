@@ -16,16 +16,17 @@ public class UIController : MonoBehaviour
         Singleton = this;
     }
 
-    public void ActivateElement(string name)
+    public GameObject ShowElement(string name)
     {
         for (int i = 0; i < UIElements.Length; i++)
         {
             if (UIElements[i] != null && UIElements[i].name == name)
             {
                 UIElements[i].SetActive(true);
-                return;
+                return UIElements[i];
             }
         }
+        return null;
     }
 
     public void HideElement(string name)
