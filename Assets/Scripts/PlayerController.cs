@@ -10,8 +10,8 @@ public class PlayerController : NetworkBehaviour
         Light,
         Dark
     }
-    const float jumpForce = 7f;
-    const float horizontalSpeed = 7f;
+    const float jumpForce = 5f;
+    const float horizontalSpeed = 5f;
 
     float horizontalControl = 0;
     Rigidbody2D rb;
@@ -42,6 +42,20 @@ public class PlayerController : NetworkBehaviour
 
             GameObject.Find("Main Camera").transform.SetParent(transform);
         }
+
+        if (IsServer)
+        {
+            if (NetworkManager.Singleton.ConnectedClients.Count > 1)
+            {
+                Time.timeScale = 1f;
+                UIController.Singleton.HideAll();
+            }
+            else
+            {
+                UIController.Singleton.ShowElement("Notification");
+                Time.timeScale = 0f;
+            }
+        }
     }
 
     void Update()
@@ -67,13 +81,13 @@ public class PlayerController : NetworkBehaviour
             jumpTimer -= Time.deltaTime;
 
             // Jump
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Joystick1Button0)) && jumpTimer < 0f)
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Joystick1Button0) || Input.GetKey(KeyCode.Space)) && jumpTimer < 0f)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 0.20f, 1);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 0.15f, 1);
                 if (hit)
                 {
                     rb.AddForce(up * jumpForce, ForceMode2D.Impulse);
-                    jumpTimer = 0.5f;
+                    jumpTimer = 0.1f;
                 }
             }
         }
