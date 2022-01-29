@@ -82,7 +82,6 @@ public class EmitLight : MonoBehaviour
                 intersection.y < Mathf.Max(line[0].y, line[1].y) + Eps &&
                 CompareFloat(Mathf.Atan2(direction.y, direction.x), Mathf.Atan2(intersection.y - pos.y, intersection.x - pos.x)))
             {
-                Debug.Log(intersection);
                 points.Add(new PointLine(intersection, line));
             }
         }
@@ -226,9 +225,6 @@ public class EmitLight : MonoBehaviour
     }
     private void Update()
     {
-        Vector3 dir = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.position = transform.position + dir * Time.deltaTime * 3;
-
         DrawStuff();
     }
 

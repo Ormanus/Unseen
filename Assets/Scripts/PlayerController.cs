@@ -50,6 +50,7 @@ public class PlayerController : NetworkBehaviour
         {
             // Horizontal controls
             horizontalControl = 0;
+            horizontalControl = Input.GetAxis("Horizontal");
             if (Input.GetKey(KeyCode.D))
             {
                 horizontalControl += 1;
@@ -59,12 +60,14 @@ public class PlayerController : NetworkBehaviour
                 horizontalControl -= 1;
             }
 
+            horizontalControl = Mathf.Clamp(horizontalControl, -1, 1);
+
             Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
 
             jumpTimer -= Time.deltaTime;
 
             // Jump
-            if (Input.GetKeyDown(KeyCode.W) && jumpTimer < 0f)
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Joystick1Button0)) && jumpTimer < 0f)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 0.1f, 1);
                 if (hit)

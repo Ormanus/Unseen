@@ -51,11 +51,6 @@ public class AreaDrawer : MonoBehaviour
         }
     }
 
-    private static float PositiveModulo(float a, float b)
-    {
-        return a - (a/b) * b;
-    }
-
     List<PointLine> RaycastAngle(List<Vector2[]> lines, RaycastPoint raycastPoint)
     {
         List<PointLine> points = new List<PointLine>();
