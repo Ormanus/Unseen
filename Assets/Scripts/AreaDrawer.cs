@@ -27,7 +27,7 @@ public class AreaDrawer : MonoBehaviour
 
     private List<Vector2[]> lines_;
 
-    const float Eps = 0.001f;
+    const float Eps = 0.00001f;
 
     private bool CompareVector2(Vector2 a, Vector2 b)
     {
