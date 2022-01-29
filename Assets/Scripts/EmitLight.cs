@@ -5,7 +5,7 @@ using UnityEngine;
 public class EmitLight : MonoBehaviour
 {
     private List<BlockLight> walls_;
-    public GameObject TriangleDrawerObject;
+    //public GameObject TriangleDrawerObject;
 
     private class RaycastPoint
     {
@@ -163,13 +163,13 @@ public class EmitLight : MonoBehaviour
                         {
                             continue;
                         }
-                        GameObject triangleObject = Instantiate(TriangleDrawerObject);
-                        triangleObject.transform.position += new Vector3(0, 0, 1);
-                        TriangleDrawer drawer;
-                        if (triangleObject.TryGetComponent<TriangleDrawer>(out drawer))
-                        {
-                            drawer.DrawTriangle(pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y), new Color(1f, 1f, 0));
-                        }
+                        //GameObject triangleObject = Instantiate(TriangleDrawerObject);
+                        //triangleObject.transform.position += new Vector3(0, 0, 1);
+                        //TriangleDrawer drawer;
+                        //if (triangleObject.TryGetComponent<TriangleDrawer>(out drawer))
+                        //{
+                        //    drawer.DrawTriangle(pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y), new Color(1f, 1f, 0));
+                        //}
                     }
                 }
             }
