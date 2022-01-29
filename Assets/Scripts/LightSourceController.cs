@@ -5,22 +5,17 @@ using UnityEngine;
 public class LightSourceController : MonoBehaviour
 {
     public EmitLight[] LightSources;
-    void ClearTriangles()
-    {
-        TriangleDrawer[] objs = FindObjectsOfType<TriangleDrawer>();
-        foreach (var obj in objs)
-        {
-            Destroy(obj.gameObject);
-        }
-    }
 
     // Update is called once per frame
     void Update()
     {
-        ClearTriangles();
+        GlobalLightMesh.Clear();
         foreach (var lightSource in LightSources)
         {
             lightSource.DrawStuff();
         }
+        GameObject bgSquare = GameObject.Find("Background Square");
+        Material mat = bgSquare.GetComponent<SpriteRenderer>().material;
+        GlobalLightMesh.ApplyToShader(mat);
     }
 }

@@ -170,6 +170,7 @@ public class EmitLight : MonoBehaviour
                         //{
                         //    drawer.DrawTriangle(pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y), new Color(1f, 1f, 0));
                         //}
+                        GlobalLightMesh.AddTriangle(new Vector2[] { pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y) });
                     }
                 }
             }
