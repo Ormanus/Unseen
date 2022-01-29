@@ -27,7 +27,7 @@ public class AreaDrawer : MonoBehaviour
 
     private List<Vector2[]> lines_;
 
-    const float Eps = 0.0001f;
+    const float Eps = 0.001f;
 
     private bool CompareVector2(Vector2 a, Vector2 b)
     {
@@ -49,6 +49,11 @@ public class AreaDrawer : MonoBehaviour
             Point = point;
             Line = line;
         }
+    }
+
+    private static float PositiveModulo(float a, float b)
+    {
+        return a - (a/b) * b;
     }
 
     List<PointLine> RaycastAngle(List<Vector2[]> lines, RaycastPoint raycastPoint)
@@ -108,6 +113,7 @@ public class AreaDrawer : MonoBehaviour
             foreach (var line in intersected_lines)
             {
                 finalPoints.Add(new PointLine(points[i], line));
+
                 if (!CompareVector2(points[i], line[0]) && !CompareVector2(points[i], line[1]))
                 {
                     return finalPoints;
@@ -156,6 +162,11 @@ public class AreaDrawer : MonoBehaviour
                 }
             }
         }
+        raycastPoints.Sort((RaycastPoint a, RaycastPoint b) => {
+            if (a.Angle == b.Angle)
+                return 0;
+            return a.Angle < b.Angle ? -1 : 1;
+        });
 
         List<List<PointLine>> endPoints = new List<List<PointLine>>();
 
@@ -164,12 +175,6 @@ public class AreaDrawer : MonoBehaviour
             List<PointLine> newPoints = RaycastAngle(lines_, point);
             endPoints.Add(newPoints);
         }
-
-        raycastPoints.Sort((RaycastPoint a, RaycastPoint b) => {
-            if (a.Angle == b.Angle)
-                return 0;
-            return a.Angle < b.Angle ? -1 : 1;
-        });
 
         //Debug.Log("End point rays: " + endPoints.Count);
         for (int i = 0; i < endPoints.Count; i++)
@@ -193,7 +198,7 @@ public class AreaDrawer : MonoBehaviour
                         TriangleDrawer drawer;
                         if (triangleObject.TryGetComponent<TriangleDrawer>(out drawer))
                         {
-                            drawer.DrawTriangle(pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y), new Color(0.01f * i, 0, 0, 0.5f));
+                            drawer.DrawTriangle(pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y), new Color(1.0f, 0.05f * i, 0, 0.5f));
                         }
                     }
                 }
