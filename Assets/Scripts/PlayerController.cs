@@ -90,6 +90,12 @@ public class PlayerController : NetworkBehaviour
                     jumpTimer = 0.1f;
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.Return) && IsServer)
+            {
+                Time.timeScale = 1f;
+                UIController.Singleton.HideAll();
+            }
         }
     }
 
