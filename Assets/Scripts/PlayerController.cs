@@ -10,8 +10,8 @@ public class PlayerController : NetworkBehaviour
         Light,
         Dark
     }
-    const float jumpForce = 5f;
-    const float horizontalSpeed = 5f;
+    const float jumpForce = 7f;
+    const float horizontalSpeed = 7f;
 
     float horizontalControl = 0;
     Rigidbody2D rb;
@@ -69,7 +69,7 @@ public class PlayerController : NetworkBehaviour
             // Jump
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Joystick1Button0)) && jumpTimer < 0f)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 0.1f, 1);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 0.20f, 1);
                 if (hit)
                 {
                     rb.AddForce(up * jumpForce, ForceMode2D.Impulse);
