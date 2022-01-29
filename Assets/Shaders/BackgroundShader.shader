@@ -82,7 +82,7 @@ Shader "Unlit/BackgroundShader"
                     float2 vec0 = _LightMeshVectors[k];
                     float2 vec1 = _LightMeshVectors[k + 1];
                     float2 vec2 = _LightMeshVectors[k + 2];
-                    if (!(vec0.x == vec1.x && vec0.x == vec2.x) && is_in_triangle(i.worldPos, vec0, vec1, vec2))
+                    if (is_in_triangle(i.worldPos, vec0, vec1, vec2))
                     {
                         bright = true;
                         break;
