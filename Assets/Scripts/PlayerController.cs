@@ -10,7 +10,7 @@ public class PlayerController : NetworkBehaviour
         Light,
         Dark
     }
-    const float jumpForce = 2f;
+    const float jumpForce = 5f;
     const float horizontalSpeed = 5f;
 
     float horizontalControl = 0;
@@ -28,12 +28,17 @@ public class PlayerController : NetworkBehaviour
     {
         if (IsOwner)
         {
-            if (IsClient)
-                rb.position = Vector2.down * 3f;
-            else
+            if (IsServer)
+            {
                 rb.position = Vector2.up * 3f;
+            }
+            else
+            {
+                rb.position = Vector2.down * 3f;
+                rb.gravityScale = -rb.gravityScale;
+            }
 
-            GameObject.Find("MainCamera").transform.SetParent(transform);
+            GameObject.Find("Main Camera").transform.SetParent(transform);
         }
     }
 
@@ -59,7 +64,7 @@ public class PlayerController : NetworkBehaviour
             // Jump
             if (Input.GetKeyDown(KeyCode.W) && jumpTimer < 0f)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 1f, 1);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -up, 0.1f, 1);
                 if (hit)
                 {
                     rb.AddForce(up * jumpForce, ForceMode2D.Impulse);
