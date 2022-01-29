@@ -109,20 +109,9 @@ public class EmitLight : MonoBehaviour
         return finalPoints;
     }
 
-    void ClearTriangles()
-    {
-        TriangleDrawer[] objs = FindObjectsOfType<TriangleDrawer>();
-        foreach (var obj in objs)
-        {
-            Destroy(obj.gameObject);
-        }
-    }
-
     // Start is called before the first frame update
-    void DrawStuff()
+    public void DrawStuff()
     {
-        ClearTriangles();
-
         lines_ = new List<Vector2[]>();
         raycastPoints = new List<RaycastPoint>();
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
@@ -223,10 +212,4 @@ public class EmitLight : MonoBehaviour
             walls_.Add(realWall);
         }
     }
-    private void Update()
-    {
-        DrawStuff();
-    }
-
-
 }
