@@ -262,13 +262,17 @@ MonoBehaviour:
   - Vertices:
     - {x: -5, y: 5}
     - {x: 5, y: 5}
+    - {x: 0, y: 6}
   - Vertices:
     - {x: 5, y: 5}
     - {x: 5, y: -5}
+    - {x: 6, y: 0}
   - Vertices:
     - {x: 5, y: -5}
     - {x: -5, y: -5}
+    - {x: 0, y: -6}
   - Vertices:
     - {x: -5, y: 5}
     - {x: -5, y: -5}
+    - {x: -6, y: 0}
   TriangleDrawerObject: {fileID: 1980012197662084687, guid: 7ae4caa42d93dad478ffccf151c1809b, type: 3}
