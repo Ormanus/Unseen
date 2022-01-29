@@ -43,15 +43,18 @@ public class PlayerController : NetworkBehaviour
             GameObject.Find("Main Camera").transform.SetParent(transform);
         }
 
-        if (NetworkManager.Singleton.ConnectedClients.Count > 1)
+        if (IsServer)
         {
-            Time.timeScale = 1f;
-            UIController.Singleton.HideAll();
-        }
-        else
-        {
-            UIController.Singleton.ShowElement("Notification");
-            Time.timeScale = 0f;
+            if (NetworkManager.Singleton.ConnectedClients.Count > 1)
+            {
+                Time.timeScale = 1f;
+                UIController.Singleton.HideAll();
+            }
+            else
+            {
+                UIController.Singleton.ShowElement("Notification");
+                Time.timeScale = 0f;
+            }
         }
     }
 
