@@ -5,6 +5,8 @@ using UnityEngine;
 public static class GlobalLightMesh
 {
     public static List<Vector2[]> Triangles = new List<Vector2[]>();
+
+    private static ComputeBuffer previousBuffer;
     public static void Clear()
     {
         Triangles.Clear();
@@ -13,24 +15,31 @@ public static class GlobalLightMesh
     {
         Triangles.Add(triangle);
     }
-    const int MaxPointCount = 1023;
+    const int MaxPointCount = 4096;
     public static void ApplyToShader(Material material)
     {
-        List<Vector4> vectors = new List<Vector4>();
+        List<Vector2> vectors = new List<Vector2>();
         int count = 0;
         foreach (var triangle in Triangles)
         {
             for (int i = 0; i < 3 && count < MaxPointCount;  i++, count++)
             {
-                vectors.Add(new Vector4(triangle[i].x, triangle[i].y, 0, 0));
+                vectors.Add(new Vector2(triangle[i].x, triangle[i].y));
             }
         }
 
-        Vector4[] trianglePoints = new Vector4[MaxPointCount];
+        if (previousBuffer!=null)
+        {
+            previousBuffer.Release();
+        }
 
-        vectors.CopyTo(trianglePoints);
+        ComputeBuffer buffer;
+        buffer = new ComputeBuffer(vectors.Count, System.Runtime.InteropServices.Marshal.SizeOf(typeof(Vector2)), ComputeBufferType.Default);
+        buffer.SetData(vectors);
 
-        material.SetVectorArray("_LightMeshVectors", trianglePoints);
+        material.SetBuffer("_LightMeshVectors", buffer);
+        //material.SetVectorArray("_LightMeshVectors", trianglePoints);
         material.SetInteger("_LightMeshVectorsLength", vectors.Count);
+        previousBuffer = buffer;
     }
 }

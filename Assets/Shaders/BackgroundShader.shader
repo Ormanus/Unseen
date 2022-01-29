@@ -42,14 +42,14 @@ Shader "Unlit/BackgroundShader"
             float4 _SecondaryTex_ST;
 
             int _LightMeshVectorsLength = 1023;
-            float4 _LightMeshVectors[1023];
+            StructuredBuffer<float2> _LightMeshVectors;
 
-            float sign(float3 p1, float4 p2, float4 p3)
+            float sign(float3 p1, float2 p2, float2 p3)
             {
                 return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
             }
 
-            bool is_in_triangle(float3 pt, float4 v1, float4 v2, float4 v3)
+            bool is_in_triangle(float3 pt, float2 v1, float2 v2, float2 v3)
             {
                 float d1, d2, d3;
                 bool has_neg, has_pos;
@@ -79,9 +79,9 @@ Shader "Unlit/BackgroundShader"
                 bool bright = false;
                 for (int k = 0; k < _LightMeshVectorsLength; k += 3)
                 {
-                    float4 vec0 = _LightMeshVectors[k];
-                    float4 vec1 = _LightMeshVectors[k + 1];
-                    float4 vec2 = _LightMeshVectors[k + 2];
+                    float2 vec0 = _LightMeshVectors[k];
+                    float2 vec1 = _LightMeshVectors[k + 1];
+                    float2 vec2 = _LightMeshVectors[k + 2];
                     if (!(vec0.x == vec1.x && vec0.x == vec2.x) && is_in_triangle(i.worldPos, vec0, vec1, vec2))
                     {
                         bright = true;
