@@ -183,30 +183,6 @@ public class EmitLight : MonoBehaviour
         walls_ = new List<BlockLight>();
 
         BlockLight[] realWalls = FindObjectsOfType<BlockLight>();
-        GameObject emptyObject = new GameObject("wall");
-        emptyObject.AddComponent<BlockLight>();
-        emptyObject.AddComponent<BoxCollider2D>();
-
-        GameObject upperWall = Instantiate(emptyObject);
-        upperWall.transform.position = new Vector3(0, 51, 0);
-        upperWall.transform.localScale = new Vector3(100, 2, 1);
-
-        GameObject rightWall = Instantiate(emptyObject);
-        rightWall.transform.position = new Vector3(51, 0, 0);
-        rightWall.transform.localScale = new Vector3(2, 100, 1);
-
-        GameObject lowerWall = Instantiate(emptyObject);
-        lowerWall.transform.position = new Vector3(0, -51, 0);
-        lowerWall.transform.localScale = new Vector3(100, 2, 1);
-
-        GameObject leftWall = Instantiate(emptyObject);
-        leftWall.transform.position = new Vector3(-51, 0, 0);
-        leftWall.transform.localScale = new Vector3(2, 100, 1);
-
-        walls_.Add(upperWall.GetComponent<BlockLight>());
-        walls_.Add(rightWall.GetComponent<BlockLight>());
-        walls_.Add(lowerWall.GetComponent<BlockLight>());
-        walls_.Add(leftWall.GetComponent<BlockLight>());
 
         foreach (var realWall in realWalls)
         {
