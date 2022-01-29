@@ -31,11 +31,13 @@ public class PlayerController : NetworkBehaviour
             if (IsServer)
             {
                 rb.position = Vector2.up * 3f;
+                playerType = PlayerType.Light;
             }
             else
             {
                 rb.position = Vector2.down * 3f;
                 rb.gravityScale = -rb.gravityScale;
+                playerType = PlayerType.Dark;
             }
 
             GameObject.Find("Main Camera").transform.SetParent(transform);
