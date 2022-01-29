@@ -79,7 +79,10 @@ Shader "Unlit/BackgroundShader"
                 bool bright = false;
                 for (int k = 0; k < _LightMeshVectorsLength; k += 3)
                 {
-                    if (!(_LightMeshVectors[k].x == _LightMeshVectors[k + 1].x && _LightMeshVectors[k].x == _LightMeshVectors[k + 2].x) && is_in_triangle(i.worldPos, _LightMeshVectors[k], _LightMeshVectors[k + 1], _LightMeshVectors[k + 2]))
+                    float4 vec0 = _LightMeshVectors[k];
+                    float4 vec1 = _LightMeshVectors[k + 1];
+                    float4 vec2 = _LightMeshVectors[k + 2];
+                    if (!(vec0.x == vec1.x && vec0.x == vec2.x) && is_in_triangle(i.worldPos, vec0, vec1, vec2))
                     {
                         bright = true;
                         break;

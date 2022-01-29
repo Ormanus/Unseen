@@ -31,6 +31,6 @@ public static class GlobalLightMesh
         vectors.CopyTo(trianglePoints);
 
         material.SetVectorArray("_LightMeshVectors", trianglePoints);
-        material.SetInteger("_LightMeshVectorsLength", trianglePoints.Length);
+        material.SetInteger("_LightMeshVectorsLength", vectors.Count);
     }
 }
