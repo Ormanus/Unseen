@@ -67,7 +67,7 @@ public class PlayerController : NetworkBehaviour
 
     public bool PublicIsHost
     {
-        get => IsHost;
+        get => IsServer;
     }
 
     public override void OnNetworkSpawn()
@@ -182,10 +182,7 @@ public class PlayerController : NetworkBehaviour
             horizontalControl -= 1;
         }
 
-<<<<<<< HEAD
         horizontalControl = Mathf.Clamp(horizontalControl, -1, 1);
-=======
->>>>>>> 245f1882ce2b4b772075e1bbe5d09f88bbf1b2b6
 
         Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
 
@@ -194,25 +191,10 @@ public class PlayerController : NetworkBehaviour
         // Jump
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Joystick1Button0) || Input.GetKey(KeyCode.Space)) && jumpTimer < 0f)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * 0.2f, -up, 0.5f, 1);
-            if (hit)
+            if (TouchesGround())
             {
                 rb.AddForce(up * jumpForce, ForceMode2D.Impulse);
                 jumpTimer = 0.1f;
-            }
-            else
-            {
-<<<<<<< HEAD
-                hit = Physics2D.Raycast(transform.position + Vector3.left * 0.2f, -up, 0.5f, 1);
-                if (hit)
-=======
-                if (touchesGround)
->>>>>>> 245f1882ce2b4b772075e1bbe5d09f88bbf1b2b6
-                {
-                    Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
-                    rb.AddForce(up * jumpForce, ForceMode2D.Impulse);
-                    jumpTimer = 0.1f;
-                }
             }
         }
 

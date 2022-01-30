@@ -52,7 +52,7 @@ public class EndPortal : MonoBehaviour
 
                 Debug.Log("Portal reached!");
 
-                if (lightReached && nightReached && playerController.PublicIsHost)
+                if (lightReached && nightReached )
                 {
                     Debug.Log("Finished the game!");
                     GameController.FinishGame();
