@@ -119,9 +119,12 @@ public class EmitLight : MonoBehaviour
         foreach (var wall in walls_)
         {
             BoxCollider2D collider = wall.gameObject.GetComponent<BoxCollider2D>();
-            Vector2 boxPosition = collider.transform.position;
-            Vector2 size = collider.transform.localScale;
-            Vector2[] vertices = new Vector2[] { boxPosition + size / 2, boxPosition + new Vector2(size.x, -size.y) / 2, boxPosition - size / 2, boxPosition + new Vector2(-size.x, size.y) / 2 };
+            Vector3 boxPosition = collider.transform.position;
+            Vector3 size = collider.transform.localScale;
+            float angle = collider.transform.eulerAngles.z;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+            Vector2[] vertices = new Vector2[] { boxPosition + rotation * (size / 2), boxPosition + rotation * new Vector3(size.x, -size.y) / 2, boxPosition - rotation * size / 2, boxPosition + rotation * new Vector3(-size.x, size.y) / 2 };
+
 
             Vector2 previous = vertices[vertices.Length - 1];
             foreach (var vertex in vertices)
@@ -163,13 +166,6 @@ public class EmitLight : MonoBehaviour
                         {
                             continue;
                         }
-                        //GameObject triangleObject = Instantiate(TriangleDrawerObject);
-                        //triangleObject.transform.position += new Vector3(0, 0, 1);
-                        //TriangleDrawer drawer;
-                        //if (triangleObject.TryGetComponent<TriangleDrawer>(out drawer))
-                        //{
-                        //    drawer.DrawTriangle(pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y), new Color(1f, 1f, 0));
-                        //}
                         GlobalLightMesh.AddTriangle(new Vector2[] { pos, new Vector2(point.Point.x, point.Point.y), new Vector2(nextPoint.Point.x, nextPoint.Point.y) });
                     }
                 }
