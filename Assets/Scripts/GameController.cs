@@ -31,8 +31,24 @@ public class GameController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void FinishGameClientRpc()
+    public void FinishGameClientRpc(ClientRpcParams rpsParams = default)
     {
+        StartCoroutine(EndGameSequence());
+    }
+
+    IEnumerator EndGameSequence()
+    {
+        GameObject.Find("Main Camera").transform.SetParent(null);
+        float t = 1f;
+        while (t > 0f)
+        {
+            t -= Time.deltaTime * 2f;
+            foreach (var player in Players)
+            {
+                player.transform.localScale = Vector3.one * t;
+            }
+            yield return null;
+        }
         Debug.Log("Ending the game...");
         NetworkManager.Singleton.Shutdown();
         UIController.Singleton.ShowElement("EndScreen");

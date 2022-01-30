@@ -94,6 +94,10 @@ public class PlayerController : NetworkBehaviour
                 cam.transform.localPosition = new Vector3(0f, 0f, -10f);
             }
         }
+        else
+        {
+            playerType = IsHost ? PlayerType.Dark : PlayerType.Light;
+        }
 
         if (IsServer)
         {
