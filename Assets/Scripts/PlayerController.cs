@@ -28,26 +28,26 @@ public class PlayerController : NetworkBehaviour
     }
 
     private AnimationState currentAnimation_;
-    private AnimationState CurrentAnimation { 
-        get => currentAnimation_;
-        set
-        { if (currentAnimation_ != value)
+
+    private void SetAnimation(AnimationState animation)
+    {
+        if (currentAnimation_ != animation)
+        {
+            string prefix = playerType == PlayerType.Light ? "" : "Night";
+            currentAnimation_ = animation;
+            switch (animation)
             {
-                currentAnimation_ = value;
-                switch(value)
-                {
-                    case AnimationState.Idle:
-                        animator.Play("Idle");
-                        break;
-                    case AnimationState.Air:
-                        animator.Play("Jump");
-                        break;
-                    case AnimationState.Move:
-                        animator.Play("Walking");
-                        break;
-                    default:
-                        break;
-                }
+                case AnimationState.Idle:
+                    animator.Play(prefix + "Idle");
+                    break;
+                case AnimationState.Air:
+                    animator.Play(prefix + "Jump");
+                    break;
+                case AnimationState.Move:
+                    animator.Play(prefix + "Walking");
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -116,24 +116,30 @@ public class PlayerController : NetworkBehaviour
 
     void Update()
     {
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        sr.flipY = playerType == PlayerType.Dark;
+
+        BoxCollider2D boxCollider2D= sr.GetComponent<BoxCollider2D>();
+        boxCollider2D.offset = playerType == PlayerType.Light ? new Vector2(0, -0.12f) : new Vector2(0, 0.15f);
+
         bool touchesGround = TouchesGround();
 
         if (touchesGround)
         {
             if (Mathf.Abs(rb.velocity.x) < 0.1)
             {
-                CurrentAnimation = AnimationState.Idle;
+                SetAnimation(AnimationState.Idle);
             }
             else
             {
-                CurrentAnimation = AnimationState.Move;
-                SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-                sr.flipX = rb.velocity.x < 0;
+                SetAnimation(AnimationState.Move);
+                sr = gameObject.GetComponent<SpriteRenderer>();
+                sr.flipX = rb.velocity.x > 0;
             }
         }
         else
         {
-            CurrentAnimation = AnimationState.Air;
+            SetAnimation(AnimationState.Air);
         }
 
         if (IsOwner)
