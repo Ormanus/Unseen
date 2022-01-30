@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 
 public class EndPortal : MonoBehaviour
 {
@@ -51,10 +50,12 @@ public class EndPortal : MonoBehaviour
                     nightReached = true;
                 }
 
-                if (lightReached && nightReached)
+                Debug.Log("Portal reached!");
+
+                if (lightReached && nightReached )
                 {
-                    UIController.Singleton.ShowElement("EndScreen");
-                    NetworkManager.Singleton.Shutdown();
+                    Debug.Log("Finished the game!");
+                    GameController.FinishGame();
                 }
             }
         }

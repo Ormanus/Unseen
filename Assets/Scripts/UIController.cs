@@ -16,17 +16,18 @@ public class UIController : MonoBehaviour
         Singleton = this;
     }
 
-    public GameObject ShowElement(string name)
+    public void ShowElement(string name)
     {
         for (int i = 0; i < UIElements.Length; i++)
         {
             if (UIElements[i] != null && UIElements[i].name == name)
             {
                 UIElements[i].SetActive(true);
-                return UIElements[i];
+                return;
             }
         }
-        return null;
+        Debug.LogWarning($"UI element '{name}' not found.");
+        return;
     }
 
     public void HideElement(string name)
