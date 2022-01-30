@@ -157,19 +157,6 @@ public class PlayerController : NetworkBehaviour
         {
             PollControls();
         }
-
-        if (IsServer)
-        {
-            CheckDeaths();
-        }
-    }
-
-    private void CheckDeaths()
-    {
-        foreach (var player in GameController.Players)
-        {
-            
-        }
     }
 
     private void PollControls()

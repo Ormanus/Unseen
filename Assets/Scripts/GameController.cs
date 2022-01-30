@@ -10,9 +10,20 @@ public class GameController : NetworkBehaviour
 
     static GameController Singleton;
 
+    public Vector3 lightSpawn = new Vector3(0f, -3f, 0f);
+    public Vector3 darkSpawn = new Vector3(0f, 3f, 0f);
+
     private void Awake()
     {
         Singleton = this;
+    }
+
+    private void Update()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            // Check deaths
+        }
     }
 
     public static void ReturnToMain()
@@ -22,6 +33,40 @@ public class GameController : NetworkBehaviour
         NetworkManager.Singleton.Shutdown(true);
         UIController.Singleton.ShowElement("StartScreen");
         Players.Clear();
+    }
+
+    public static void Death()
+    {
+        Debug.Log("Calling client RPC...");
+        Singleton.FinishGameClientRpc();
+    }
+
+    [ClientRpc]
+    public void DeathClientRpc(ClientRpcParams rpsParams = default)
+    {
+        StartCoroutine(EndGameSequence());
+    }
+
+    IEnumerator DeathSequence()
+    {
+        GameObject.Find("Main Camera").transform.SetParent(null);
+        float t = 1f;
+        while (t > 0f)
+        {
+            t -= Time.deltaTime * 3f;
+            foreach (var player in Players)
+            {
+                player.transform.localScale = Vector3.one * t;
+            }
+            yield return null;
+        }
+        Debug.Log("Respawning...");
+        foreach (var player in Players)
+        {
+            player.transform.localScale = Vector3.one;
+
+            player.transform.position = player.playerType == PlayerController.PlayerType.Light ? lightSpawn : darkSpawn;
+        }
     }
 
     public static void FinishGame()
@@ -42,7 +87,7 @@ public class GameController : NetworkBehaviour
         float t = 1f;
         while (t > 0f)
         {
-            t -= Time.deltaTime * 2f;
+            t -= Time.deltaTime * 1f;
             foreach (var player in Players)
             {
                 player.transform.localScale = Vector3.one * t;
