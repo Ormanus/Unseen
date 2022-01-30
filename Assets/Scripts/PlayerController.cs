@@ -19,11 +19,45 @@ public class PlayerController : NetworkBehaviour
     float jumpTimer = 0f;
 
     public PlayerType playerType {get; private set;}
+    private Animator animator;
+
+    enum AnimationState
+    {
+        Idle,
+        Air,
+        Move
+    }
+
+    private AnimationState currentAnimation_;
+
+    private void SetAnimation(AnimationState animation)
+    {
+        if (currentAnimation_ != animation)
+        {
+            string prefix = playerType == PlayerType.Light ? "" : "Night";
+            currentAnimation_ = animation;
+            switch (animation)
+            {
+                case AnimationState.Idle:
+                    animator.Play(prefix + "Idle");
+                    break;
+                case AnimationState.Air:
+                    animator.Play(prefix + "Jump");
+                    break;
+                case AnimationState.Move:
+                    animator.Play(prefix + "Walking");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         GameController.Players.Add(this);
+        animator = GetComponent<Animator>();
     }
 
     public override void OnNetworkDespawn()
@@ -76,8 +110,45 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    bool TouchesGround()
+    {
+        Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * 0.2f, -up, 0.5f, 1);
+        if (!hit)
+        {
+            hit = Physics2D.Raycast(transform.position + Vector3.left * 0.2f, -up, 0.5f, 1);
+        }
+        return hit;
+    }
+
     void Update()
     {
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        sr.flipY = playerType == PlayerType.Dark;
+
+        BoxCollider2D boxCollider2D= sr.GetComponent<BoxCollider2D>();
+        boxCollider2D.offset = playerType == PlayerType.Light ? new Vector2(0, -0.12f) : new Vector2(0, 0.15f);
+
+        bool touchesGround = TouchesGround();
+
+        if (touchesGround)
+        {
+            if (Mathf.Abs(rb.velocity.x) < 0.1)
+            {
+                SetAnimation(AnimationState.Idle);
+            }
+            else
+            {
+                SetAnimation(AnimationState.Move);
+                sr = gameObject.GetComponent<SpriteRenderer>();
+                sr.flipX = rb.velocity.x > 0;
+            }
+        }
+        else
+        {
+            SetAnimation(AnimationState.Air);
+        }
+
         if (IsOwner)
         {
             PollControls();
@@ -111,7 +182,10 @@ public class PlayerController : NetworkBehaviour
             horizontalControl -= 1;
         }
 
+<<<<<<< HEAD
         horizontalControl = Mathf.Clamp(horizontalControl, -1, 1);
+=======
+>>>>>>> 245f1882ce2b4b772075e1bbe5d09f88bbf1b2b6
 
         Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
 
@@ -128,9 +202,14 @@ public class PlayerController : NetworkBehaviour
             }
             else
             {
+<<<<<<< HEAD
                 hit = Physics2D.Raycast(transform.position + Vector3.left * 0.2f, -up, 0.5f, 1);
                 if (hit)
+=======
+                if (touchesGround)
+>>>>>>> 245f1882ce2b4b772075e1bbe5d09f88bbf1b2b6
                 {
+                    Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
                     rb.AddForce(up * jumpForce, ForceMode2D.Impulse);
                     jumpTimer = 0.1f;
                 }
