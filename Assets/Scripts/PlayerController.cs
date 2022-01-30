@@ -76,13 +76,13 @@ public class PlayerController : NetworkBehaviour
         {
             if (IsHost)
             {
-                rb.position = Vector2.up * 3f;
+                rb.position = GameController.lightSpawn;
                 playerType = PlayerType.Light;
                 Debug.Log("Started the game as the light character");
             }
             else
             {
-                rb.position = Vector2.down * 3f;
+                rb.position = GameController.darkSpawn;
                 rb.gravityScale = -rb.gravityScale;
                 playerType = PlayerType.Dark;
                 Debug.Log("Started the game as the dark character");
@@ -105,6 +105,7 @@ public class PlayerController : NetworkBehaviour
             {
                 Time.timeScale = 1f;
                 UIController.Singleton.HideAll();
+                GameController.respawning = false;
             }
             else
             {
@@ -117,7 +118,7 @@ public class PlayerController : NetworkBehaviour
     bool TouchesGround()
     {
         Vector2 up = playerType == PlayerType.Light ? Vector2.up : Vector2.down;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * 0.2f, -up, 0.5f, 1);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * 0.2f, -up, 0.5f, 65);
         if (!hit)
         {
             hit = Physics2D.Raycast(transform.position + Vector3.left * 0.2f, -up, 0.5f, 1);

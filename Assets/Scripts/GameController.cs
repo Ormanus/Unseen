@@ -10,8 +10,10 @@ public class GameController : NetworkBehaviour
 
     static GameController Singleton;
 
-    public Vector3 lightSpawn = new Vector3(0f, -3f, 0f);
-    public Vector3 darkSpawn = new Vector3(0f, 3f, 0f);
+    public static Vector3 lightSpawn = new Vector3(0f, 3f, 0f);
+    public static Vector3 darkSpawn = new Vector3(0f, -3f, 0f);
+
+    public static bool respawning = true;
 
     private void Awake()
     {
@@ -20,9 +22,35 @@ public class GameController : NetworkBehaviour
 
     private void Update()
     {
-        if (NetworkManager.Singleton.IsServer)
+        if (NetworkManager.Singleton.IsServer && !respawning)
         {
-            // Check deaths
+            if (Players.Count == 2)
+            {
+                Vector2 pos1 = Players[0].transform.position;
+                Vector2 pos2 = Players[1].transform.position;
+
+                Vector2 delta = pos2 - pos1;
+                Vector2 ignoreRadius = delta.normalized * 0.6f;
+
+                RaycastHit2D hit = Physics2D.Raycast(pos1 + ignoreRadius, delta, delta.magnitude, 65 + 8);
+
+                if (hit)
+                {
+                    var player = hit.collider.GetComponent<PlayerController>();
+                    if (player)
+                    {
+                        if (player == Players[0])
+                        {
+                            Debug.Log("ERROR!!");
+                        }
+                        else
+                        {
+                            Debug.Log("HIT!");
+                            Death();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -37,14 +65,15 @@ public class GameController : NetworkBehaviour
 
     public static void Death()
     {
-        Debug.Log("Calling client RPC...");
-        Singleton.FinishGameClientRpc();
+        Debug.Log("Calling death RPC...");
+        Singleton.DeathClientRpc();
     }
 
     [ClientRpc]
     public void DeathClientRpc(ClientRpcParams rpsParams = default)
     {
-        StartCoroutine(EndGameSequence());
+        respawning = true;
+        StartCoroutine(DeathSequence());
     }
 
     IEnumerator DeathSequence()
@@ -64,14 +93,24 @@ public class GameController : NetworkBehaviour
         foreach (var player in Players)
         {
             player.transform.localScale = Vector3.one;
-
             player.transform.position = player.playerType == PlayerController.PlayerType.Light ? lightSpawn : darkSpawn;
+
+            if (player.IsLocalPlayer)
+            {
+                var cam = GameObject.Find("Main Camera");
+                if (cam)
+                {
+                    cam.transform.SetParent(player.transform);
+                    cam.transform.localPosition = new Vector3(0f, 0f, -10f);
+                }
+            }
+            respawning = false;
         }
     }
 
     public static void FinishGame()
     {
-        Debug.Log("Calling client RPC...");
+        Debug.Log("Calling end RPC...");
         Singleton.FinishGameClientRpc();
     }
 
